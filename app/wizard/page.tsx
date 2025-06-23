@@ -8,7 +8,7 @@
 // pages/index.tsx or pages/wizard.tsx
 
 
-import { TextField, Box } from '@mui/material';
+import '../../app/bootstrap-lite.css';
 import WizardLayout from '../../components/WizardLayout';
 import AssetInfo from './steps/AssetInfo';
 import Documents from './steps/Documents';
