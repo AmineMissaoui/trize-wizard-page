@@ -19,3 +19,7 @@ yarn.lock
 # vscode directory
 .vscode/
 
+# Cypress
+cypress/screenshots/
+cypress/videos/
+
