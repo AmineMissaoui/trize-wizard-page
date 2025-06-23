@@ -9,12 +9,18 @@
 
 
 import '../../app/bootstrap-lite.css';
+import FormProvider from '../../components/FormProvider';
 import WizardLayout from '../../components/WizardLayout';
 import AssetInfo from './steps/AssetInfo';
 import Documents from './steps/Documents';
 import Review from './steps/Review';
 
+
 export default function WizardPage() {
-  const steps = [<AssetInfo key="step-1" />, <Documents key="step-2" />, <Review key="step-3" />];
-  return <WizardLayout steps={steps} />;
+  const steps = [<AssetInfo key="1" />, <Documents key="2" />, <Review key="3" />];
+  return (
+    <FormProvider>
+      <WizardLayout steps={steps} />
+    </FormProvider>
+  );
 }
