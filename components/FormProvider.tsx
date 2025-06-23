@@ -1,3 +1,5 @@
+'use client';
+
 import { ReactNode } from 'react';
 import { useForm, FormProvider as RHFProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -21,7 +23,6 @@ export const wizardSchema = yup.object({
     .required('Decimals are required')
     .min(0, 'Min 0')
     .max(18, 'Max 18'),
-  documents: yup.mixed(), 
 });
 
 export type WizardFormData = yup.InferType<typeof wizardSchema>; 
@@ -34,7 +35,6 @@ export default function FormProvider({ children }: { children: ReactNode }) {
       assetSymbol: '',
       assetName: '',
       decimals: 0,
-      documents: [],
     },
   });
 
