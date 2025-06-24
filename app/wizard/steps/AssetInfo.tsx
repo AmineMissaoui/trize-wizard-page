@@ -21,6 +21,7 @@ export default function AssetInfo() {
             {...register("assetSymbol")}
             error={!!errors.assetSymbol}
             helperText={errors.assetSymbol?.message?.toString()}
+            inputProps={{ 'data-cy': 'assetSymbol' }}
           />
         </div>
         <div className="col">
@@ -31,6 +32,7 @@ export default function AssetInfo() {
             {...register("assetName")}
             error={!!errors.assetName}
             helperText={errors.assetName?.message?.toString()}
+            inputProps={{ 'data-cy': 'assetName' }}
           />
         </div>
         <div className="col">
@@ -41,6 +43,7 @@ export default function AssetInfo() {
             {...register("decimals")}
             error={!!errors.decimals}
             helperText={errors.decimals?.message?.toString()}
+            inputProps={{ 'data-cy': 'decimals' }}
           />
         </div>
       </div>
