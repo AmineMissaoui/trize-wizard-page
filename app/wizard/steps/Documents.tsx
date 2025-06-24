@@ -3,27 +3,34 @@
 import { Box, Typography } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import { useCallback } from "react";
+import toast from "react-hot-toast";
 
 export default function Documents() {
   const { setValue, watch } = useFormContext();
   const files = watch("documents") || [];
 
+  const showToast = (newFiles: File[]) => {
+    if (newFiles.length > 0) {
+      toast.success(`${newFiles.length} file(s) uploaded`);
+    }
+  };
+
   const onDrop = useCallback(
     (e: React.DragEvent<HTMLDivElement>) => {
       e.preventDefault();
       const droppedFiles = Array.from(e.dataTransfer.files);
-      setValue("documents", [...files, ...droppedFiles], {
-        shouldValidate: true,
-      });
+      const updatedFiles = [...files, ...droppedFiles];
+      setValue("documents", updatedFiles, { shouldValidate: true });
+      showToast(droppedFiles);
     },
     [files, setValue]
   );
 
   const onFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
-    setValue("documents", [...files, ...selectedFiles], {
-      shouldValidate: true,
-    });
+    const updatedFiles = [...files, ...selectedFiles];
+    setValue("documents", updatedFiles, { shouldValidate: true });
+    showToast(selectedFiles);
   };
 
   return (
