@@ -1,28 +1,42 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import { Stepper, Step, StepLabel, Button, Box } from "@mui/material";
 import { useFormContext } from "react-hook-form";
+import { WizardFormData } from "./FormProvider";
 
 export default function WizardLayout({ steps }: { steps: ReactNode[] }) {
   const [active, setActive] = useState(0);
-  const { trigger, formState } = useFormContext();
-  const { isValid, isSubmitting } = formState;
+  const [isStepValid, setIsStepValid] = useState(false);
 
-  const stepFields: Record<number, string[]> = {
-    0: ["tokenSymbol", "tokenName", "decimals"],
+  const { trigger, watch, formState } = useFormContext<WizardFormData>();
+  const { isSubmitting } = formState;
+
+  const stepFields: Record<number, (keyof WizardFormData)[]> = {
+    0: ["assetSymbol", "assetName", "decimals"],
     1: ["documents"],
   };
 
+  const currentFields = stepFields[active] || [];
+  const watched = watch(currentFields);
+
+  useEffect(() => {
+    const runValidation = async () => {
+      const isValid = await trigger(currentFields);
+      setIsStepValid(isValid);
+    };
+
+    runValidation();
+  }, [JSON.stringify(watched), active]);
+
   const next = async () => {
-    const fields = stepFields[active] || [];
-    const valid = await trigger(fields, { shouldFocus: true });
-    if (valid) {
-      setActive((s) => s + 1);
+    const isValid = await trigger(currentFields, { shouldFocus: true });
+    if (isValid) {
+      setActive((prev) => prev + 1);
     }
   };
 
-  const back = () => setActive((s) => s - 1);
+  const back = () => setActive((prev) => prev - 1);
 
   return (
     <>
@@ -43,8 +57,7 @@ export default function WizardLayout({ steps }: { steps: ReactNode[] }) {
           <Button
             onClick={next}
             variant="contained"
-            disabled={isSubmitting || !isValid}
-            className={isSubmitting || !isValid ? "button-disabled" : ""}
+            disabled={!isStepValid || isSubmitting}
           >
             Next
           </Button>
