@@ -8,7 +8,8 @@
 // pages/index.tsx or pages/wizard.tsx
 
 
-import '../../app/bootstrap-lite.css';
+import '../../app/styles/bootstrap-lite.css';
+import '../../app/styles/globals.css';
 import FormProvider from '../../components/FormProvider';
 import WizardLayout from '../../components/WizardLayout';
 import AssetInfo from './steps/AssetInfo';

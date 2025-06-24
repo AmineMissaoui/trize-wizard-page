@@ -24,10 +24,10 @@ export const wizardSchema = yup.object({
     .min(0, "Min 0")
     .max(18, "Max 18"),
   documents: yup
-    .array()
-    .of(yup.mixed())
-    .min(1, "At least one document is required")
-    .optional(),
+    .mixed()
+    .test("required", "At least one document is required", (value) => {
+      return value && Array.isArray(value) && value.length > 0;
+    }),
 });
 
 export type WizardFormData = yup.InferType<typeof wizardSchema>;
