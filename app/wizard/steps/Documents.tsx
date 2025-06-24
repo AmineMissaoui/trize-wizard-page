@@ -1,44 +1,46 @@
-'use client';
+"use client";
 
-import { Box, Typography } from '@mui/material';
-import { useFormContext } from 'react-hook-form';
-import { useCallback } from 'react';
+import { Box, Typography } from "@mui/material";
+import { useFormContext } from "react-hook-form";
+import { useCallback } from "react";
 
 export default function Documents() {
   const { setValue, watch } = useFormContext();
-  const files = watch('documents') || [];
+  const files = watch("documents") || [];
 
   const onDrop = useCallback(
     (e: React.DragEvent<HTMLDivElement>) => {
       e.preventDefault();
       const droppedFiles = Array.from(e.dataTransfer.files);
-      setValue('documents', [...files, ...droppedFiles], { shouldValidate: true });
+      setValue("documents", [...files, ...droppedFiles], {
+        shouldValidate: true,
+      });
     },
     [files, setValue]
   );
 
   const onFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
-    setValue('documents', [...files, ...selectedFiles], { shouldValidate: true });
+    setValue("documents", [...files, ...selectedFiles], {
+      shouldValidate: true,
+    });
   };
 
   return (
     <Box>
-      <Typography variant="h6" mb={2}>
-        Step 2: Upload Documents (drag & drop or click to select)
-      </Typography>
+      <h2>Step 2: Upload Documents (drag & drop or click to select)</h2>
 
       <Box
         onDrop={onDrop}
         onDragOver={(e) => e.preventDefault()}
         sx={{
-          border: '2px dashed #ccc',
+          border: "2px dashed #ccc",
           padding: 4,
-          textAlign: 'center',
-          cursor: 'pointer',
+          textAlign: "center",
+          cursor: "pointer",
           mb: 2,
         }}
-        onClick={() => document.getElementById('fileInput')?.click()}
+        onClick={() => document.getElementById("fileInput")?.click()}
       >
         Drag & drop files here, or click to select files
       </Box>
@@ -47,7 +49,7 @@ export default function Documents() {
         type="file"
         multiple
         id="fileInput"
-        style={{ display: 'none' }}
+        style={{ display: "none" }}
         onChange={onFileSelect}
       />
 
